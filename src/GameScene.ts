@@ -15,15 +15,15 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('background', '/assets/Background.jpg');
-    this.load.image('field', '/assets/Field.png');
-    this.load.image('sunflower1', '/assets/Sunflower1.png');
-    this.load.image('sunflower2', '/assets/Sunflower2.png');
-    this.load.image('sunflower3', '/assets/Sunflower3.png');
-    this.load.image('herb1', '/assets/herb1.png');
-    this.load.image('herb2', '/assets/herb2.png');
-    this.load.image('herb3', '/assets/herb3.png');
-    this.load.image('farmer', '/assets/farmer.png');
+    this.load.image('background', '/Background.jpg');
+    this.load.image('field', '/Field.png');
+    this.load.image('sunflower1', '/Sunflower1.png');
+    this.load.image('sunflower2', '/Sunflower2.png');
+    this.load.image('sunflower3', '/Sunflower3.png');
+    this.load.image('herb1', '/Herb1.png');
+    this.load.image('herb2', '/Herb2.png');
+    this.load.image('herb3', '/Herb3.png');
+    this.load.image('farmer', '/farmer.png');
   }
 
   create() {
@@ -67,32 +67,36 @@ export default class GameScene extends Phaser.Scene {
       }
     }
 
-	// Stage 3 Plants Counter
-	this.counterText = this.add.text(
-		this.cameras.main.width / 2,
-		this.cameras.main.height - 10,
-		`Plants at stage 3: ${this.stage3Counter}`,
-		{ font: '20px Arial'}
-	);
-	this.counterText.setOrigin(0.5, 1);
-	// Temp counter increase
-	this.input.keyboard.on('keydown-SPACE', this.incrementCounter, this);
-    this.farmer = this.add.sprite(75, 75, 'farmer');
-    this.farmer.setScale(0.5, 0.5);
+    this.fields.forEach((field, index) => {
+			console.log(`Field ${index}: Water ${field.waterLevel}, Sun ${field.sunLevel}, State ${field.plantState}`);
+		});
 
-	// Turn button
-    const button = this.add.text(400, 300, 'Click Me', {
-      fontSize: '32px',
-      backgroundColor: '#0088cc',
-      padding: { x: 20, y: 10 },
-      align: 'center'
-    });
-    button.setX(this.cameras.main.width - button.width - 20);
-    button.setY(20);
-    button.setInteractive();
-    button.on('pointerdown', () => {
-      console.log('hi');
-    });
+    // Stage 3 Plants Counter
+    this.counterText = this.add.text(
+      this.cameras.main.width / 2,
+      this.cameras.main.height - 10,
+      `Plants at stage 3: ${this.stage3Counter}`,
+      { font: '20px Arial'}
+    );
+    this.counterText.setOrigin(0.5, 1);
+    // Temp counter increase
+    this.input.keyboard.on('keydown-SPACE', this.incrementCounter, this);
+      this.farmer = this.add.sprite(75, 75, 'farmer');
+      this.farmer.setScale(0.5, 0.5);
+
+    // Turn button
+      const button = this.add.text(400, 300, 'Click Me', {
+        fontSize: '32px',
+        backgroundColor: '#0088cc',
+        padding: { x: 20, y: 10 },
+        align: 'center'
+      });
+      button.setX(this.cameras.main.width - button.width - 20);
+      button.setY(20);
+      button.setInteractive();
+      button.on('pointerdown', () => {
+        console.log('hi');
+      });
   }
 
   update() {
