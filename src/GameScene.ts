@@ -1,14 +1,14 @@
 import Phaser from 'phaser';
 
 export default class GameScene extends Phaser.Scene {
-  private keyA: Phaser.Input.Keyboard.Key;
-  private keyS: Phaser.Input.Keyboard.Key;
-  private keyD: Phaser.Input.Keyboard.Key;
-  private keyW: Phaser.Input.Keyboard.Key;
+  private keyA!: Phaser.Input.Keyboard.Key;
+  private keyS!: Phaser.Input.Keyboard.Key;
+  private keyD!: Phaser.Input.Keyboard.Key;
+  private keyW!: Phaser.Input.Keyboard.Key;
   private stage3Counter: number = 0;
-  private counterText: Phaser.GameObjects.Text;
-  fields: any[];
-  farmer: Phaser.GameObjects.Sprite;
+  private counterText!: Phaser.GameObjects.Text;
+  fields!: any[];
+  farmer!: Phaser.GameObjects.Sprite;
 
   constructor() {
     super('game-scene');

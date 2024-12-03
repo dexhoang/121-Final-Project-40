@@ -1,8 +1,16 @@
 {
 	"compilerOptions": {
-		"target": "es6",
-		"moduleResolution": "node",
-		"checkJs": true,
-		"esModuleInterop": true
-	}
-}
+	  "outDir": "./dist",    // Output directory for the compiled JS files
+	  "module": "ESNext",    // Use ES module system (necessary for 'type="module"')
+	  "target": "ES5",       // Compile to ES5 (or ES6/ESNext, depending on your needs)
+	  "moduleResolution": "node", // Resolve modules as in Node.js
+	  "esModuleInterop": true, // Allows using non-ES modules like Phaser
+	  "strict": true,        // Enable strict type checking
+	  "skipLibCheck": true,  // Skip type checking of declaration files
+	  "forceConsistentCasingInFileNames": true
+	},
+	"include": [
+	  "src/**/*.ts"          // Include all TypeScript files under src/
+	]
+  }
+  
