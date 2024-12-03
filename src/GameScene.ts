@@ -5,6 +5,8 @@ export default class GameScene extends Phaser.Scene {
   private keyS: Phaser.Input.Keyboard.Key;
   private keyD: Phaser.Input.Keyboard.Key;
   private keyW: Phaser.Input.Keyboard.Key;
+  private stage3Counter: number = 0;
+  private counterText: Phaser.GameObjects.Text;
   fields: any[];
   farmer: Phaser.GameObjects.Sprite;
 
@@ -65,7 +67,16 @@ export default class GameScene extends Phaser.Scene {
       }
     }
 
-	// Create the farmer sprite and store it
+	// Stage 3 Plants Counter
+	this.counterText = this.add.text(
+		this.cameras.main.width / 2,
+		this.cameras.main.height - 10,
+		`Plants at stage 3: ${this.stage3Counter}`,
+		{ font: '20px Arial'}
+	);
+	this.counterText.setOrigin(0.5, 1);
+	// Temp counter increase
+	this.input.keyboard.on('keydown-SPACE', this.incrementCounter, this);
     this.farmer = this.add.sprite(75, 75, 'farmer');
     this.farmer.setScale(0.5, 0.5);
 
@@ -85,18 +96,23 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
+	//Player Movement
     const moveSpeed = 3;
-
     if (this.keyA.isDown) {
       this.farmer.x -= moveSpeed;
     } else if (this.keyD.isDown) {
       this.farmer.x += moveSpeed;
     }
-
     if (this.keyW.isDown) {
       this.farmer.y -= moveSpeed;
     } else if (this.keyS.isDown) {
       this.farmer.y += moveSpeed;
     }
   }
+
+  //Temp increment stage 3 counter
+  private incrementCounter() {
+	this.stage3Counter++;
+	this.counterText.setText(`Plants at stage 3: ${this.stage3Counter}`);
+}
 }
