@@ -1,65 +1,102 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 
 export default class GameScene extends Phaser.Scene {
-	fields: any[]
-	constructor() {
-		super("game-scene")
-	}
+  private keyA: Phaser.Input.Keyboard.Key;
+  private keyS: Phaser.Input.Keyboard.Key;
+  private keyD: Phaser.Input.Keyboard.Key;
+  private keyW: Phaser.Input.Keyboard.Key;
+  fields: any[];
+  farmer: Phaser.GameObjects.Sprite;
 
-	preload() {
-		this.load.image('background', '/assets/Background.jpg')
-		this.load.image('field', '/assets/Field.png')
+  constructor() {
+    super('game-scene');
+  }
 
-		this.load.image('sunflower1', '/assets/Sunflower1.png')
-		this.load.image('sunflower2', '/assets/Sunflower2.png')
-		this.load.image('sunflower3', '/assets/Sunflower3.png')
+  preload() {
+    this.load.image('background', '/assets/Background.jpg');
+    this.load.image('field', '/assets/Field.png');
+    this.load.image('sunflower1', '/assets/Sunflower1.png');
+    this.load.image('sunflower2', '/assets/Sunflower2.png');
+    this.load.image('sunflower3', '/assets/Sunflower3.png');
+    this.load.image('herb1', '/assets/herb1.png');
+    this.load.image('herb2', '/assets/herb2.png');
+    this.load.image('herb3', '/assets/herb3.png');
+    this.load.image('farmer', '/assets/farmer.png');
+  }
 
-		this.load.image('herb1', '/assets/herb1.png')
-		this.load.image('herb2', '/assets/herb2.png')
-		this.load.image('herb3', '/assets/herb3.png')
-	}
+  create() {
+	//WASD creation
+    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
-	create() {
-		let background = this.add.image(this.scale.width / 2, this.scale.height / 2, 'background');
-		background.setScale(2, 2);
+    let background = this.add.image(this.scale.width / 2, this.scale.height / 2, 'background');
+    background.setScale(2, 2);
 
-		// Define grid properties
-		const gridStartX = 100;
-		const gridStartY = 250;
-		const numRows = 5;
-		const numCols = 8;
-		const cellSpacingX = 50;
-		const cellSpacingY = 50;
-		const fieldScale = 0.2;
+    // Define grid properties
+    const gridStartX = 100;
+    const gridStartY = 250;
+    const numRows = 5;
+    const numCols = 8;
+    const cellSpacingX = 50;
+    const cellSpacingY = 50;
+    const fieldScale = 0.2;
 
-		//store fields in array
-		this.fields = [];
+    // Store fields in array
+    this.fields = [];
 
-		// Create the grid
-		for (let row = 0; row < numRows; row++) {
-			for (let col = 0; col < numCols; col++) {
-				const x = gridStartX + col * cellSpacingX;
-				const y = gridStartY + row * cellSpacingY;
+    // Create the grid
+    for (let row = 0; row < numRows; row++) {
+      for (let col = 0; col < numCols; col++) {
+        const x = gridStartX + col * cellSpacingX;
+        const y = gridStartY + row * cellSpacingY;
 
-				// Add a field image at each grid position
-				let field = this.add.image(x, y, 'field');
-				field.setScale(fieldScale);
+        // Add a field image at each grid position
+        let field = this.add.image(x, y, 'field');
+        field.setScale(fieldScale);
 
-				// Add field properties 
-				field.waterLevel = 0;
-				field.sunLevel = 0;
-				field.plantState = 0;
+        // Add field properties
+        field.waterLevel = 0;
+        field.sunLevel = 0;
+        field.plantState = 0;
 
-				this.fields.push(field);
-			}
-		}
-		
-		this.fields.forEach((field, index) => {
-			console.log(`Field ${index}: Water ${field.waterLevel}, Sun ${field.sunLevel}, State ${field.plantState}`);
-		});
-	}
+        this.fields.push(field);
+      }
+    }
 
-	update() {
-		
-	}
+	// Create the farmer sprite and store it
+    this.farmer = this.add.sprite(75, 75, 'farmer');
+    this.farmer.setScale(0.5, 0.5);
+
+	// Turn button
+    const button = this.add.text(400, 300, 'Click Me', {
+      fontSize: '32px',
+      backgroundColor: '#0088cc',
+      padding: { x: 20, y: 10 },
+      align: 'center'
+    });
+    button.setX(this.cameras.main.width - button.width - 20);
+    button.setY(20);
+    button.setInteractive();
+    button.on('pointerdown', () => {
+      console.log('hi');
+    });
+  }
+
+  update() {
+    const moveSpeed = 3;
+
+    if (this.keyA.isDown) {
+      this.farmer.x -= moveSpeed;
+    } else if (this.keyD.isDown) {
+      this.farmer.x += moveSpeed;
+    }
+
+    if (this.keyW.isDown) {
+      this.farmer.y -= moveSpeed;
+    } else if (this.keyS.isDown) {
+      this.farmer.y += moveSpeed;
+    }
+  }
 }
